@@ -22,8 +22,16 @@
                motion:framePosition="60"
                android:alpha="0" />
            <KeyAttribute
-               motion:motionTarget="@+id/textCoundReminders"
+               motion:motionTarget="@+id/textCountReminders"
                motion:framePosition="35"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/textCountReminders"
+               motion:framePosition="60"
+               android:alpha="0" />
+           <KeyAttribute
+               motion:motionTarget="@+id/textCountReminders"
+               motion:framePosition="100"
                android:alpha="0" />
            <KeyAttribute
                motion:motionTarget="@+id/guideline"
