@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/activity_main_scene"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -30,12 +30,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textCoundReminders"
+        android:id="@+id/textCountReminders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
         android:gravity="center_horizontal"
-        android:text="5 reminders coming up"
+        android:text=" reminders coming up"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,8 +67,7 @@
             android:id="@+id/scheduleListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="70dp"
-            android:background="#8BC34A" />
+            android:layout_marginTop="70dp" />
     </RelativeLayout>
 
     <androidx.appcompat.widget.Toolbar
