@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
+
+ <!--   <color name="lightPrimaryColor">#FFFFFF</color>
+    <color name="lightPrimaryDarkColor">#CCCCCC</color>
+    <color name="lightAccentColor">#FF4081</color>
+    <color name="lightTextColor">#000000</color>
+    <color name="lightBackgroundColor">#F5F5F5</color>
+
+    &lt;!&ndash;Day Theme Colours&ndash;&gt;
+    <color name="colorPrimary">@color/lightPrimaryColor</color>
+    <color name="colorPrimaryDark">@color/lightPrimaryDarkColor</color>
+    <color name="colorSecondary">@color/lightAccentColor</color>
+    <color name="colorOnPrimary">@color/lightTextColor</color>
+    <color name="colorOnSecondary">@color/lightTextColor</color>
+    <color name="colorSurface">@color/lightBackgroundColor</color>
+    <color name="colorOnSurface">@color/lightTextColor</color>
+    <color name="colorOnBackground">@color/lightTextColor</color>
+
+    <color name="colorError">@color/lightAccentColor</color>
+    <color name="colorOnError">@color/lightTextColor</color>
+    <color name="colorSurfaceVariant">@color/lightTextColor</color>
+    <color name="colorOnSurfaceVariant">@color/lightTextColor</color>
+    <color name="colorOutline">@color/lightTextColor</color>
+    <color name="colorOutlineVariant">@color/lightTextColor</color>
+-->
+
+
+   <!--  Night Theme Colors
+    <color name="nightPrimaryColor">#000000</color>
+    <color name="nightPrimaryDarkColor">#333333</color>
+    <color name="nightAccentColor">#FF4081</color>
+    &lt;!&ndash;Night theme colors&ndash;&gt;
+    <color name="nightTextColor">#FFFFFF</color>
+    <color name="nightBackgroundColor">#121212</color>
+
+-->
+
+
+
+
+<!--    <color name="nightPrimaryColor">#000000</color>
+    <color name="nightPrimaryDarkColor">#333333</color>
+    <color name="nightAccentColor">#FF4081</color>
+    <color name="nightTextColor">#FFFFFF</color>
+    <color name="nightBackgroundColor">#121212</color>-->
+
+
+
 </resources>
