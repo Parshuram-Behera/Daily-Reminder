@@ -1,11 +1,20 @@
 package com.onedevapps.dailyreminder.activity
 
 import android.app.Application
+import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onedevapps.dailyreminder.DataModels.ScheduleModels
@@ -21,46 +30,42 @@ class MainActivity : AppCompatActivity() {
 
     val viewModel by lazy { MainViewModel(Application()) }
 
+    private var filteredList: MutableList<ScheduleModels> = mutableListOf()
+    private var scheduleList = mutableListOf<ScheduleModels>()
+
+
+    lateinit var  adapter : ScheduleListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         setSupportActionBar(binding.toolBar)
         supportActionBar?.title = ""
 
-
-
+        // Initialize adapter with original and filtered lists
+        adapter = ScheduleListAdapter(
+            fullList = viewModel.scheduleList.value?.toMutableList() ?: mutableListOf(),
+            filteredList = viewModel.scheduleList.value?.toMutableList() ?: mutableListOf(),
+            recyclerView = binding.scheduleListRecyclerView,
+            viewModel = viewModel
+        )
         binding.scheduleListRecyclerView.layoutManager = LinearLayoutManager(this)
-
-        val scheduleList = mutableListOf<ScheduleModels>()
-
-
-        var adapter = ScheduleListAdapter(scheduleList,binding.scheduleListRecyclerView,viewModel)
         binding.scheduleListRecyclerView.adapter = adapter
 
-        scheduleList.add(ScheduleModels("WaterTake", "14/06/2023", "11:10 AM"))
-        scheduleList.add(ScheduleModels("Take Medicine", "14/06/2023", "11:50 AM"))
-        scheduleList.add(ScheduleModels("Wish BirthDay ", "15/06/2023", "11:10 AM"))
-        scheduleList.add(ScheduleModels("Go To Office", "15/06/2023", "11:10 PM"))
-        scheduleList.add(ScheduleModels("Wash Cloth", "16/06/2023", "1:10 AM"))
-        scheduleList.add(ScheduleModels("Take Juice", "21/06/2023", "11:10 PM"))
-        scheduleList.add(ScheduleModels("Need Break", "12/07/2023", "09:10 AM"))
-        scheduleList.add(ScheduleModels("Chill Time", "10/07/2023", "1:30 AM"))
-        scheduleList.add(ScheduleModels("WaterTake", "11/07/2023", "11:10 AM"))
-        scheduleList.add(ScheduleModels("Lunch Time", "11/07/2023", "11:10 AM"))
-        scheduleList.add(ScheduleModels("Work Time", "11/07/2023", "11:10 AM"))
-        scheduleList.add(ScheduleModels("WaterTake", "11/07/2023", "11:10 AM"))
-        scheduleList.add(ScheduleModels("Bed Time", "11/07/2023", "11:10 AM"))
+        // Observe changes in filteredList and update adapter
+        viewModel.filteredList.observe(this) { newList ->
 
-        adapter.notifyDataSetChanged()
+            if (!newList.isNullOrEmpty()){
+                adapter.updateList(newList.toMutableList())
+            }
+        }
+
+
 
         val itemTouchHelper = ItemTouchHelper(SwipeToDeleteCallBack(adapter))
-        itemTouchHelper.attachToRecyclerView( binding.scheduleListRecyclerView)
-
-        viewModel.listCount.value = scheduleList.size
-
+        itemTouchHelper.attachToRecyclerView(binding.scheduleListRecyclerView)
 
         viewModel.listLiveData.observe(this){
             if (it != null) {
@@ -70,8 +75,81 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
+
+        // changing the toolbar icon colour as the app theme mode
+        var iconColor = 0
+        var currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        when (currentNightMode) {
+            Configuration.UI_MODE_NIGHT_NO -> {
+                Log.d("Theme", " Light Theme ")
+                iconColor = getColor(R.color.black)
+            }
+            Configuration.UI_MODE_NIGHT_YES -> {
+                Log.d("Theme", "Dark Theme")
+
+               iconColor = getColor(R.color.white)
+            }
+        }
+        menu?.let {
+            for (i in 0 until it.size()) {
+                val menuItem = it.getItem(i)
+                menuItem.icon?.let { icon ->
+                    tintMenuIcon(icon, iconColor)
+                }
+            }
+        }
+
+        // listening the text inputted in the search menu of tool bar
+
+        var searchIcon = menu?.findItem(R.id.app_bar_search)
+        var searchView = searchIcon?.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.filterList(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    adapter.restoreFullList() // Restore original list when search is cleared
+                } else {
+                    viewModel.filterList(newText)
+                }
+                return true
+            }
+        })
+
         return true
     }
+    private fun tintMenuIcon(icon: Drawable, color: Int) {
+        val wrappedIcon = DrawableCompat.wrap(icon)
+        DrawableCompat.setTint(wrappedIcon, color)
+        wrappedIcon.setTintMode(PorterDuff.Mode.SRC_IN)
+    }
+
+  /*  private fun filterList(query: String?) {
+        filteredList.clear()
+
+        if (query.isNullOrBlank()) {
+
+            // Reset list when query is empty
+
+            Log.d("Search", "Empty : $scheduleList")
+            filteredList.addAll(scheduleList)
+            Log.d("Search", "Empty : Filter  $filteredList")
+            adapter.updateList(filteredList)
+        } else {
+            val searchText = query.lowercase().trim()
+            filteredList.addAll(scheduleList.filter {
+                it.scheduleTitle.lowercase().contains(searchText)
+            })
+
+            adapter.updateList(filteredList)
+        }
+
+        adapter.notifyDataSetChanged() // Refresh RecyclerView
+    }*/
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var id = item.itemId
@@ -84,7 +162,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Plus Clicked", Toast.LENGTH_SHORT).show()
         } else if (id == R.id.app_bar_search) {
 
-            Toast.makeText(this, "Plus Clicked", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Search Clicked", Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
     }
