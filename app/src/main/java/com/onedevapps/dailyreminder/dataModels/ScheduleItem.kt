@@ -1,6 +1,6 @@
-package com.onedevapps.dailyreminder.DataModels
+package com.onedevapps.dailyreminder.dataModels
 
-data class ScheduleModels(
+data class ScheduleItem(
     var scheduleTitle: String,
     var scheduleDate:String,
     var scheduleTime:String

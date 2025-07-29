@@ -1,11 +1,11 @@
-package com.onedevapps.dailyreminder.DataBase
+package com.onedevapps.dailyreminder.dataBase.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "schedule_table")
-data class DatabaseEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+data class ScheduleEntity(
+    @PrimaryKey(autoGenerate = true) val itemId: Int = 0,
     val title: String,
     val date: String,
     val time: String
