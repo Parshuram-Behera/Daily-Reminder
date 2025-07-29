@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.onedevapps.dailyreminder.DataModels.ScheduleModels
+import com.onedevapps.dailyreminder.dataModels.ScheduleItem
 import com.onedevapps.dailyreminder.R
-import com.onedevapps.dailyreminder.ViewModels.MainViewModel
+import com.onedevapps.dailyreminder.viewModels.MainViewModel
 
 class ScheduleListAdapter(
-    private var fullList: MutableList<ScheduleModels>, // Stores the original unfiltered list
-    private var filteredList: MutableList<ScheduleModels>, // Stores the currently displayed list
+    private var fullList: MutableList<ScheduleItem>, // Stores the original unfiltered list
+    private var filteredList: MutableList<ScheduleItem>, // Stores the currently displayed list
     private var recyclerView: RecyclerView,
     private val viewModel: MainViewModel
 ) : RecyclerView.Adapter<ScheduleListAdapter.ListViewHolder>() {
@@ -56,7 +56,7 @@ class ScheduleListAdapter(
         }
     }
 
-    fun updateList(newList: List<ScheduleModels>) {
+    fun updateList(newList: List<ScheduleItem>) {
         filteredList.clear()
         filteredList.addAll(newList)
         notifyDataSetChanged()

@@ -2,7 +2,6 @@ package com.onedevapps.dailyreminder.activity
 
 import android.app.Application
 import android.content.res.Configuration
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -12,14 +11,12 @@ import android.view.MenuItem
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.onedevapps.dailyreminder.DataModels.ScheduleModels
+import com.onedevapps.dailyreminder.dataModels.ScheduleItem
 import com.onedevapps.dailyreminder.R
-import com.onedevapps.dailyreminder.ViewModels.MainViewModel
+import com.onedevapps.dailyreminder.viewModels.MainViewModel
 import com.onedevapps.dailyreminder.adapter.ScheduleListAdapter
 import com.onedevapps.dailyreminder.databinding.ActivityMainBinding
 import com.onedevapps.dailyreminder.swipeGuesture.SwipeToDeleteCallBack
@@ -30,8 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     val viewModel by lazy { MainViewModel(Application()) }
 
-    private var filteredList: MutableList<ScheduleModels> = mutableListOf()
-    private var scheduleList = mutableListOf<ScheduleModels>()
+    private var filteredList: MutableList<ScheduleItem> = mutableListOf()
+    private var scheduleList = mutableListOf<ScheduleItem>()
 
 
     lateinit var  adapter : ScheduleListAdapter
@@ -51,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             recyclerView = binding.scheduleListRecyclerView,
             viewModel = viewModel
         )
+
         binding.scheduleListRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.scheduleListRecyclerView.adapter = adapter
 
@@ -119,7 +117,6 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         })
-
         return true
     }
     private fun tintMenuIcon(icon: Drawable, color: Int) {
@@ -154,16 +151,25 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var id = item.itemId
 
-        if (id == R.id.threeDot) {
-
-            Toast.makeText(this, "More Clicked", Toast.LENGTH_SHORT).show()
-        } else if (id == R.id.menuPlus) {
-
-            Toast.makeText(this, "Plus Clicked", Toast.LENGTH_SHORT).show()
+        if (id == R.id.menuMoreOption) {
+            menuMoreOptionClick()
         } else if (id == R.id.app_bar_search) {
 
             Toast.makeText(this, "Search Clicked", Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun menuAddTaskClick() {
+        Toast.makeText(this, "Add Task Clicked", Toast.LENGTH_SHORT).show()
+
+        /*var intent = Intent(this, AddTaskActivity::class.java)
+        startActivity(intent)*/
+
+    }
+
+    private fun menuMoreOptionClick() {
+        Toast.makeText(this, "More Clicked", Toast.LENGTH_SHORT).show()
+
     }
 }

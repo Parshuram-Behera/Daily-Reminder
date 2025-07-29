@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/menuPlus"
+  <!--  <item
+        android:id="@+id/menuAddTask"
         android:icon="@drawable/add_icon"
         android:title="Plus"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 
     <item
         android:id="@+id/app_bar_search"
@@ -16,7 +16,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/threeDot"
+        android:id="@+id/menuMoreOption"
         android:icon="@drawable/more_icon"
         android:title="More Options"
         app:showAsAction="always" />

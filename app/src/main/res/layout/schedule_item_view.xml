@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardCornerRadius="5dp"
-    app:layoutDescription="@xml/schedule_item_view_scene">
+    app:cardCornerRadius="5dp">
 
  <!--   <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

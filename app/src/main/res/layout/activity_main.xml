@@ -68,6 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="70dp" />
+
+
     </RelativeLayout>
 
     <androidx.appcompat.widget.Toolbar
@@ -75,10 +77,19 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
-        app:menu="@menu/toolbar_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:menu="@menu/toolbar_menu" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTaskFAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="418dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+        tools:layout_editor_absoluteX="97dp"
+        tools:layout_editor_absoluteY="221dp" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>
